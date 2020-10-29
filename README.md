@@ -1,10 +1,10 @@
-# 🛠 component-setup
+# 🛠 component-test-setup
 
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 ![TypeScript: Strict](https://img.shields.io/badge/typescript-strict-brightgreen.svg)
-[![NPM version](https://badge.fury.io/js/component-setup.svg)](http://badge.fury.io/js/component-setup)
-[![Circle CI](https://img.shields.io/circleci/build/github/Codecademy/component-setup.svg)](https://circleci.com/gh/Codecademy/component-setup)
-[![Join the chat at https://gitter.im/Codecademy/component-setup](https://badges.gitter.im/Codecademy/component-setup.svg)](https://gitter.im/Codecademy/component-setup?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![NPM version](https://badge.fury.io/js/component-test-setup.svg)](http://badge.fury.io/js/component-test-setup)
+[![Circle CI](https://img.shields.io/circleci/build/github/Codecademy/component-test-setup.svg)](https://circleci.com/gh/Codecademy/component-test-setup)
+[![Join the chat at https://gitter.im/Codecademy/component-test-setup](https://badges.gitter.im/Codecademy/component-test-setup.svg)](https://gitter.im/Codecademy/component-test-setup?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Standardized test setup methods for React components.
 
@@ -14,6 +14,10 @@ Use this cute little package with React Testing Library or Enzyme to standardize
 > 🧠 This library is a _very_ small wrapper on top of Enzyme or RTL, and exists only to help standardize test setup behavior.
 
 ## Usage
+
+```shell
+npm install component-test-setup --save-dev
+```
 
 For both RTL and Enzyme, this library provides a `setup*` function that takes in:
 
@@ -31,7 +35,7 @@ Use `setupRtl` to create a `renderView` function.
 It returns a `view` result from RTL and a `props` object of the computed props used to render.
 
 ```js
-import { setupRtl } from "component-setup";
+import { setupRtl } from "component-test-setup";
 
 import { MyComponent } from "./MyComponent";
 
@@ -66,7 +70,7 @@ Use `setupEnzyme` to create a `renderWrapper` function.
 It returns a `wrapper` result from RTL and a `props` object of the computed props used to render.
 
 ```js
-import { setupEnzyme } from "component-setup";
+import { setupEnzyme } from "component-test-setup";
 
 import { MyComponent } from "./MyComponent";
 
@@ -87,7 +91,7 @@ describe("MyComponent", () => {
 
 ### TypeScript Usage
 
-`component-setup` is written in TypeScript and generally type safe.
+`component-test-setup` is written in TypeScript and generally type safe.
 
 - Props passed to components are typed as the component's props.
 - If a subset of required props are passed as defaults, the returned `render*` function will require only remaining required props.
@@ -127,16 +131,16 @@ Requires:
 After [forking the repo from GitHub](https://help.github.com/articles/fork-a-repo):
 
 ```
-git clone https://github.com/<your-name-here>/component-setup
-cd component-setup
+git clone https://github.com/<your-name-here>/component-test-setup
+cd component-test-setup
 yarn
 ```
 
 ### Contribution Guidelines
 
 We'd love to have you contribute!
-Check the [issue tracker](https://github.com/Codecademy/component-setup/issues) for issues labeled [`accepting prs`](https://github.com/Codecademy/component-setup/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22accepting+prs%22) to find bug fixes and feature requests the community can work on.
-If this is your first time working with this code, the [`good first issue`](https://github.com/Codecademy/component-setup/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+) label indicates good introductory issues.
+Check the [issue tracker](https://github.com/Codecademy/component-test-setup/issues) for issues labeled [`accepting prs`](https://github.com/Codecademy/component-test-setup/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22accepting+prs%22) to find bug fixes and feature requests the community can work on.
+If this is your first time working with this code, the [`good first issue`](https://github.com/Codecademy/component-test-setup/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+) label indicates good introductory issues.
 
 Please note that this project is released with a [Contributor Covenant](https://www.contributor-covenant.org).
 By participating in this project you agree to abide by its terms.
