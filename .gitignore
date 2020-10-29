@@ -5,4 +5,4 @@ node_modules/
 **/*.d.ts
 !*.config.js
 !.eslintrc.js
-!test/
+!test/*
