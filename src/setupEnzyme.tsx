@@ -1,7 +1,7 @@
 import { mount } from "enzyme";
 import React from "react";
 
-import { RemainingPropsAndTestOverrides } from "./types";
+import { RemainingPropsAndTestOverrides, FullProps, RenderEnzyme } from "./types";
 
 /**
  * Creates a `renderWrapper` function that can be used in unit tests to mount a component.
@@ -22,15 +22,15 @@ import { RemainingPropsAndTestOverrides } from "./types";
  */
 export function setupEnzyme<
   ComponentType extends React.ComponentType,
-  BaseProps extends Partial<React.ComponentProps<ComponentType>>
->(Component: ComponentType, baseProps?: BaseProps) {
+  BaseProps extends Partial<FullProps<ComponentType>> = {}
+>(Component: ComponentType, baseProps?: BaseProps): RenderEnzyme<ComponentType, BaseProps> {
   return function renderWrapper(
     testProps?: RemainingPropsAndTestOverrides<ComponentType, BaseProps>,
   ) {
     const props = {
       ...baseProps,
       ...testProps,
-    } as React.ComponentProps<ComponentType>;
+    } as FullProps<ComponentType>;
     const wrapper = mount(<Component {...(props as any)} />);
 
     return { props, wrapper };
