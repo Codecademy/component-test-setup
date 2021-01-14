@@ -6,14 +6,16 @@ export type FullProps<C extends React.ComponentType> = React.ComponentProps<C>;
 export type RenderEnzyme<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
-> = (...testProps: ConditionallyPartialProps<Component, Props>) => RenderEnzymeReturn<Component>;
+> = (
+  ...testProps: ConditionallyRequiredTestProps<Component, Props>
+) => RenderEnzymeReturn<Component>;
 
 export type RenderRtl<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
-> = (...testProps: ConditionallyPartialProps<Component, Props>) => RenderRtlReturn<Component>;
+> = (...testProps: ConditionallyRequiredTestProps<Component, Props>) => RenderRtlReturn<Component>;
 
-type ConditionallyPartialProps<
+type ConditionallyRequiredTestProps<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
 > = HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
