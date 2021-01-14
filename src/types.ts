@@ -3,35 +3,33 @@ import { mount } from "enzyme";
 
 export type FullProps<C extends React.ComponentType> = React.ComponentProps<C>;
 
-type RequiredKeys<T> = {
-  [K in keyof T]-?: Record<string, unknown> extends { [P in K]: T[K] } ? never : K;
-}[keyof T];
-
-export type HasRequiredField<T> = RequiredKeys<T> extends never ? false : true;
-
 export type RenderEnzyme<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
-> = (
-  ...testProps: HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
-    ? [RemainingPropsAndTestOverrides<Component, Props>]
-    : [RemainingPropsAndTestOverrides<Component, Props>?]
-) => RenderEnzymeReturn<Component>;
+> = (...testProps: ConditionallyPartialProps<Component, Props>) => RenderEnzymeReturn<Component>;
+
+export type RenderRtl<
+  Component extends React.ComponentType,
+  Props extends Partial<FullProps<Component>>
+> = (...testProps: ConditionallyPartialProps<Component, Props>) => RenderRtlReturn<Component>;
+
+type ConditionallyPartialProps<
+  Component extends React.ComponentType,
+  Props extends Partial<FullProps<Component>>
+> = HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
+  ? [RemainingPropsAndTestOverrides<Component, Props>]
+  : [RemainingPropsAndTestOverrides<Component, Props>?];
+
+type HasRequiredField<T> = RequiredKeys<T> extends never ? false : true;
+
+type RequiredKeys<T> = {
+  [K in keyof T]-?: Record<string, unknown> extends { [P in K]: T[K] } ? never : K;
+}[keyof T];
 
 interface RenderEnzymeReturn<Component extends React.ComponentType> {
   props: FullProps<Component>;
   wrapper: ReturnType<typeof mount>;
 }
-
-export type RenderRtl<
-  Component extends React.ComponentType,
-  Props extends Partial<FullProps<Component>>
-> = (
-  ...testProps: HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
-    ? [RemainingPropsAndTestOverrides<Component, Props>]
-    : [RemainingPropsAndTestOverrides<Component, Props>?]
-) => RenderRtlReturn<Component>;
-
 interface RenderRtlReturn<Component extends React.ComponentType> {
   props: FullProps<Component>;
   view: ReturnType<typeof render>;
