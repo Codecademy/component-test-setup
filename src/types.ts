@@ -9,25 +9,31 @@ type RequiredKeys<T> = {
 
 export type HasRequiredField<T> = RequiredKeys<T> extends never ? false : true;
 
-export type RenderEnzyme<C extends React.ComponentType, P extends Partial<FullProps<C>>> = (
-  ...testProps: HasRequiredField<RemainingPropsAndTestOverrides<C, P>> extends true
-    ? [RemainingPropsAndTestOverrides<C, P>]
-    : [RemainingPropsAndTestOverrides<C, P>?]
-) => RenderEnzymeReturn<C>;
+export type RenderEnzyme<
+  Component extends React.ComponentType,
+  Props extends Partial<FullProps<Component>>
+> = (
+  ...testProps: HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
+    ? [RemainingPropsAndTestOverrides<Component, Props>]
+    : [RemainingPropsAndTestOverrides<Component, Props>?]
+) => RenderEnzymeReturn<Component>;
 
-interface RenderEnzymeReturn<C extends React.ComponentType> {
-  props: FullProps<C>;
+interface RenderEnzymeReturn<Component extends React.ComponentType> {
+  props: FullProps<Component>;
   wrapper: ReturnType<typeof mount>;
 }
 
-export type RenderRtl<C extends React.ComponentType, P extends Partial<FullProps<C>>> = (
-  ...testProps: HasRequiredField<RemainingPropsAndTestOverrides<C, P>> extends true
-    ? [RemainingPropsAndTestOverrides<C, P>]
-    : [RemainingPropsAndTestOverrides<C, P>?]
-) => RenderRtlReturn<C>;
+export type RenderRtl<
+  Component extends React.ComponentType,
+  Props extends Partial<FullProps<Component>>
+> = (
+  ...testProps: HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
+    ? [RemainingPropsAndTestOverrides<Component, Props>]
+    : [RemainingPropsAndTestOverrides<Component, Props>?]
+) => RenderRtlReturn<Component>;
 
-interface RenderRtlReturn<C extends React.ComponentType> {
-  props: FullProps<C>;
+interface RenderRtlReturn<Component extends React.ComponentType> {
+  props: FullProps<Component>;
   view: ReturnType<typeof render>;
 }
 

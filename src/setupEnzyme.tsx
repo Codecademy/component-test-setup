@@ -22,6 +22,7 @@ import { RemainingPropsAndTestOverrides, FullProps, RenderEnzyme } from "./types
  */
 export function setupEnzyme<
   ComponentType extends React.ComponentType,
+  /* eslint-disable-next-line @typescript-eslint/ban-types */
   BaseProps extends Partial<FullProps<ComponentType>> = {}
 >(Component: ComponentType, baseProps?: BaseProps): RenderEnzyme<ComponentType, BaseProps> {
   return function renderWrapper(
