@@ -9,7 +9,7 @@ export type RenderEnzyme<
   Props extends Partial<FullProps<Component>>
 > = (
   // By using the spread operator in this type, we leverage the optionality of the entire argument itself.
-  // IE: If the caller needs no more required props, we don't require they provide test props. But if
+  // eg: If the caller needs no more required props, we don't require they provide test props. But if
   //     they DO still need props, we require a parameter in the function signature.
   //     So the syntax `renderWrapper()` is valid if there are no required props,
   //     otherwise we force `renderWrapper({ ...missingReqs })`
