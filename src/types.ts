@@ -70,4 +70,4 @@ export type RemainingPropsAndTestOverrides<
   BaseProps extends Partial<FullProps<ComponentType>>
 > =
   | Omit<FullProps<ComponentType>, keyof BaseProps>
-  | Pick<FullProps<ComponentType>, keyof Partial<FullProps<ComponentType>>>;
+  | Partial<Pick<FullProps<ComponentType>, keyof FullProps<ComponentType>>>;
