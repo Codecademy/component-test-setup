@@ -32,7 +32,7 @@ type ConditionallyRequiredTestProps<
   // demand that it has whatever required props are missing (though it may still provide any optional ones or overrides, too).
   // And if the HasRequiredField type does NOT `extends true`, then we don't demand that a props param is provided
   // at all, though the caller is able to if they'd like.
-  HasRequiredField<RemainingPropsAndTestOverrides<Component, Props>> extends true
+  HasRequiredField<RemainingProps<Component, Props>> extends true
     ? // Though this syntax is unusual, by using an array type that's then spread above by `...testProps`, we can
       // leverage the optional array value `[T?]` syntax, which allows us to not even require any params
       // in our `render*` method at all
@@ -68,6 +68,10 @@ interface RenderRtlReturn<Component extends React.ComponentType> {
 export type RemainingPropsAndTestOverrides<
   ComponentType extends React.ComponentType,
   BaseProps extends Partial<FullProps<ComponentType>>
-> =
-  | Omit<FullProps<ComponentType>, keyof BaseProps>
-  | Partial<Pick<FullProps<ComponentType>, keyof FullProps<ComponentType>>>;
+> = RemainingProps<ComponentType, BaseProps> &
+  Pick<Partial<FullProps<ComponentType>>, keyof FullProps<ComponentType>>;
+
+type RemainingProps<
+  ComponentType extends React.ComponentType,
+  BaseProps extends Partial<FullProps<ComponentType>>
+> = Omit<FullProps<ComponentType>, keyof BaseProps>;
