@@ -119,7 +119,7 @@ describe("MyComponent", () => {
 });
 ```
 
-- It is also setup to understand which of the required props have already been passed and which ones have not, allowing you to bypass sending anything at all into the `render*` method if you've already passed everything it needs:
+- It is also set up to understand which of the required props have already been passed and which ones have not, allowing you to bypass sending anything at all into the `render*` method if you've already passed everything it needs:
 
 ```ts
 type MyComponentProps = {
