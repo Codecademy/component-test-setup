@@ -4,6 +4,7 @@ import { setupRtl } from "./setupRtl";
 
 type MyComponentProps = {
   text: string;
+  optional?: number;
 };
 
 const MyComponent: React.FC<MyComponentProps> = ({ text }: MyComponentProps) => {
@@ -27,5 +28,25 @@ describe("setupRtl", () => {
     const { view } = renderView({ text });
 
     view.getByText(text);
+  });
+
+  describe("enforces that required props that are missing in the initial setup are provided in the render method", () => {
+    const text = "default";
+
+    it("when props are completely absent", async () => {
+      const renderView = setupRtl(MyComponent);
+
+      const { view } = renderView({ text });
+
+      view.getByText(text);
+    });
+
+    it("when props are incomplete in defaults", async () => {
+      const renderView = setupRtl(MyComponent, { optional: 10 });
+
+      const { view } = renderView({ text });
+
+      view.getByText(text);
+    });
   });
 });

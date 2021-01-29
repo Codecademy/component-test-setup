@@ -4,6 +4,7 @@ import { setupEnzyme } from "./setupEnzyme";
 
 type MyComponentProps = {
   text: string;
+  optional?: number;
 };
 
 const MyComponent: React.FC<MyComponentProps> = ({ text }: MyComponentProps) => {
@@ -27,5 +28,25 @@ describe("setupEnzyme", () => {
     const { wrapper } = renderWrapper({ text });
 
     expect(wrapper.text()).toEqual(text);
+  });
+
+  describe("enforces that required props that are missing in the initial setup are provided in the render method", () => {
+    const text = "default";
+
+    it("when props are completely absent", async () => {
+      const renderWrapper = setupEnzyme(MyComponent);
+
+      const { wrapper } = renderWrapper({ text });
+
+      expect(wrapper.text()).toEqual(text);
+    });
+
+    it("when props are incomplete in defaults", async () => {
+      const renderWrapper = setupEnzyme(MyComponent, { optional: 10 });
+
+      const { wrapper } = renderWrapper({ text });
+
+      expect(wrapper.text()).toEqual(text);
+    });
   });
 });
