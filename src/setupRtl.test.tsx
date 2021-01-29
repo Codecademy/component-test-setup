@@ -1,6 +1,18 @@
 import React from "react";
 
+import * as RenderRTL from "@testing-library/react";
+
 import { setupRtl } from "./setupRtl";
+
+// We mock the module and then immediately spyOn it because due to the read-only nature
+// of this module, we cannot spyOn it directly.
+// We create a mock that's the actual implementation in our mocked function as a poor-man's spyOn.
+jest.mock("@testing-library/react", () => ({
+  render: jest.fn(jest.requireActual("@testing-library/react").render),
+}));
+
+// Just a helpful way to reference our spy.
+const render = jest.spyOn(RenderRTL, "render");
 
 type MyComponentProps = {
   text: string;
@@ -12,6 +24,8 @@ const MyComponent: React.FC<MyComponentProps> = ({ text }: MyComponentProps) => 
 };
 
 describe("setupRtl", () => {
+  beforeEach(jest.clearAllMocks);
+
   it("uses a default prop value when not overridden", async () => {
     const text = "default";
     const renderView = setupRtl(MyComponent, { text });
@@ -48,5 +62,23 @@ describe("setupRtl", () => {
 
       view.getByText(text);
     });
+  });
+
+  it("passes overridden options into the render method", () => {
+    render.mockImplementation(); // We don't care about this method's inner workings
+
+    const text = "just something";
+    const options = { hydrate: true };
+
+    const renderView = setupRtl(MyComponent, { text });
+
+    renderView.options(options);
+    renderView();
+
+    expect(render).toHaveBeenCalledTimes(1);
+    expect(render).toHaveBeenCalledWith(<MyComponent text={text} />, options);
+
+    // Reset the mock so latter tests are unaffected
+    render.mockImplementation(jest.requireActual("@testing-library/react").render);
   });
 });
