@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, RenderOptions } from "@testing-library/react";
 import { mount } from "enzyme";
 
 // This is just a helpful rename of the interface so we can read the below types more easily
@@ -16,7 +16,17 @@ export type RenderEnzyme<
   ...testProps: ConditionallyRequiredTestProps<Component, Props>
 ) => RenderEnzymeReturn<Component>;
 
+// Just like RenderEnzyme, but RenderRtl also allows callers to do `renderRtl.options({...})(props)`
+// In order to support both signature types, we extend the function's base type and add the options
+// attribute for those "in the know" ;)
 export type RenderRtl<
+  Component extends React.ComponentType,
+  Props extends Partial<FullProps<Component>>
+> = RenderRtlMethod<Component, Props> & {
+  options: (options: RenderOptions) => RenderRtlMethod<Component, Props>;
+};
+
+export type RenderRtlMethod<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
 > = (...testProps: ConditionallyRequiredTestProps<Component, Props>) => RenderRtlReturn<Component>;

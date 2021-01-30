@@ -64,21 +64,37 @@ describe("setupRtl", () => {
     });
   });
 
-  it("passes overridden options into the render method", () => {
-    render.mockImplementation(); // We don't care about this method's inner workings
-
-    const text = "just something";
-    const options = { hydrate: true };
-
-    const renderView = setupRtl(MyComponent, { text });
-
-    renderView.options(options);
-    renderView();
-
-    expect(render).toHaveBeenCalledTimes(1);
-    expect(render).toHaveBeenCalledWith(<MyComponent text={text} />, options);
+  describe("uses overriden, In-n-Out secret-menu options", () => {
+    // We don't care about the inner workings of the method
+    beforeAll(() => render.mockImplementation());
 
     // Reset the mock so latter tests are unaffected
-    render.mockImplementation(jest.requireActual("@testing-library/react").render);
+    afterAll(() => render.mockImplementation(jest.requireActual("@testing-library/react").render));
+
+    it("passes overridden options into the render method", () => {
+      const text = "just something";
+      const options = { hydrate: true };
+
+      const renderView = setupRtl(MyComponent, { text });
+
+      renderView.options(options)();
+
+      expect(render).toHaveBeenCalledTimes(1);
+      expect(render).toHaveBeenCalledWith(<MyComponent text={text} />, options);
+    });
+
+    it("options are retained across calls to the method", () => {
+      const text = "just something";
+      const options = { hydrate: false };
+
+      const renderView = setupRtl(MyComponent, { text });
+
+      renderView.options(options);
+
+      renderView(); // Different method call
+
+      expect(render).toHaveBeenCalledTimes(1);
+      expect(render).toHaveBeenCalledWith(<MyComponent text={text} />, options);
+    });
   });
 });
