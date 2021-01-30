@@ -26,7 +26,7 @@ export type RenderRtl<
   options: (options: RenderOptions) => RenderRtlMethod<Component, Props>;
 };
 
-export type RenderRtlMethod<
+type RenderRtlMethod<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
 > = (...testProps: ConditionallyRequiredTestProps<Component, Props>) => RenderRtlReturn<Component>;
