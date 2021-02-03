@@ -1,18 +1,5 @@
 import React from "react";
-
-import * as RenderRTL from "@testing-library/react";
-
 import { setupRtl } from "./setupRtl";
-
-// We mock the module and then immediately spyOn it because due to the read-only nature
-// of this module, we cannot spyOn it directly.
-// We create a mock that's the actual implementation in our mocked function as a poor-man's spyOn.
-jest.mock("@testing-library/react", () => ({
-  render: jest.fn(jest.requireActual("@testing-library/react").render),
-}));
-
-// Just a helpful way to reference our spy.
-const render = jest.spyOn(RenderRTL, "render");
 
 type MyComponentProps = {
   text: string;
@@ -65,36 +52,25 @@ describe("setupRtl", () => {
   });
 
   describe("uses overriden, In-n-Out secret-menu options", () => {
-    // We don't care about the inner workings of the method
-    beforeAll(() => render.mockImplementation());
-
-    // Reset the mock so latter tests are unaffected
-    afterAll(() => render.mockImplementation(jest.requireActual("@testing-library/react").render));
+    const text = "just something";
+    const options = { container: document.createElement("div") };
 
     it("passes overridden options into the render method", () => {
-      const text = "just something";
-      const options = { hydrate: true };
-
       const renderView = setupRtl(MyComponent, { text });
 
-      renderView.options(options)();
+      const { view } = renderView.options(options)();
 
-      expect(render).toHaveBeenCalledTimes(1);
-      expect(render).toHaveBeenCalledWith(<MyComponent text={text} />, options);
+      expect(view.container).toBe(options.container);
     });
 
     it("options are retained across calls to the method", () => {
-      const text = "just something";
-      const options = { hydrate: false };
-
       const renderView = setupRtl(MyComponent, { text });
 
       renderView.options(options);
 
-      renderView(); // Different method call
+      const { view } = renderView(); // Different method call
 
-      expect(render).toHaveBeenCalledTimes(1);
-      expect(render).toHaveBeenCalledWith(<MyComponent text={text} />, options);
+      expect(view.container).toBe(options.container);
     });
   });
 });
