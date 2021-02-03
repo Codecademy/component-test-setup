@@ -1,4 +1,5 @@
 import React from "react";
+
 import { setupRtl } from "./setupRtl";
 
 type MyComponentProps = {
@@ -11,8 +12,6 @@ const MyComponent: React.FC<MyComponentProps> = ({ text }: MyComponentProps) => 
 };
 
 describe("setupRtl", () => {
-  beforeEach(jest.clearAllMocks);
-
   it("uses a default prop value when not overridden", async () => {
     const text = "default";
     const renderView = setupRtl(MyComponent, { text });
