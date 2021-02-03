@@ -65,7 +65,7 @@ describe("setupRtl", () => {
     it("options are retained across calls to the method", () => {
       const renderView = setupRtl(MyComponent, { text });
 
-      renderView.options(options);
+      renderView.options(options)(); // Method call #1
 
       const { view } = renderView(); // Different method call
 
