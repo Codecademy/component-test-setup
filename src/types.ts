@@ -23,7 +23,7 @@ export type RenderRtl<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
 > = RenderRtlMethod<Component, Props> & {
-  options: (options: RenderOptions) => RenderRtlMethod<Component, Props>;
+  options: (options: RenderOptions) => RenderRtl<Component, Props>;
 };
 
 type RenderRtlMethod<
