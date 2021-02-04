@@ -1,4 +1,4 @@
-import { render, RenderOptions } from "@testing-library/react";
+import { RenderOptions, RenderResult } from "@testing-library/react";
 import { mount } from "enzyme";
 
 // This is just a helpful rename of the interface so we can read the below types more easily
@@ -66,7 +66,7 @@ interface RenderEnzymeReturn<Component extends React.ComponentType> {
 }
 interface RenderRtlReturn<Component extends React.ComponentType> {
   props: FullProps<Component>;
-  view: ReturnType<typeof render>;
+  view: RenderResult;
 }
 
 /**
