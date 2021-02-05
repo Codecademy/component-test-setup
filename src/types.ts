@@ -1,5 +1,5 @@
 import { RenderResult } from "@testing-library/react";
-import { mount, ReactWrapper } from "enzyme";
+import { ReactWrapper } from "enzyme";
 
 // This is just a helpful rename of the interface so we can read the below types more easily
 export type FullProps<C extends React.ComponentType> = React.ComponentProps<C>;
