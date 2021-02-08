@@ -1,5 +1,5 @@
 import { RenderOptions, RenderResult } from "@testing-library/react";
-import { mount } from "enzyme";
+import { ReactWrapper } from "enzyme";
 
 // This is just a helpful rename of the interface so we can read the below types more easily
 export type FullProps<C extends React.ComponentType> = React.ComponentProps<C>;
@@ -58,7 +58,7 @@ type RequiredKeys<T> = {
 
 interface RenderEnzymeReturn<Component extends React.ComponentType> {
   props: FullProps<Component>;
-  wrapper: ReturnType<typeof mount>;
+  wrapper: ReactWrapper<FullProps<Component>, React.ComponentState>;
 }
 interface RenderRtlReturn<Component extends React.ComponentType> {
   props: FullProps<Component>;
