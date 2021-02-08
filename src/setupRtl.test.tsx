@@ -50,11 +50,11 @@ describe("setupRtl", () => {
     });
   });
 
-  describe("uses overriden, In-n-Out secret-menu options", () => {
+  describe("uses overidden options", () => {
     const text = "just something";
     const options = { container: document.createElement("div") };
 
-    it("passes overridden options into the render method", () => {
+    it("passed into the render method", () => {
       const renderView = setupRtl(MyComponent, { text });
 
       const { view } = renderView.options(options)();
@@ -62,7 +62,7 @@ describe("setupRtl", () => {
       expect(view.container).toBe(options.container);
     });
 
-    it("options are retained across calls to the method", () => {
+    it("and they are retained across calls to the method", () => {
       const renderView = setupRtl(MyComponent, { text });
 
       renderView.options(options)(); // Method call #1

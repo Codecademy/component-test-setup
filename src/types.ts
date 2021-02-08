@@ -22,14 +22,10 @@ export type RenderEnzyme<
 export type RenderRtl<
   Component extends React.ComponentType,
   Props extends Partial<FullProps<Component>>
-> = RenderRtlMethod<Component, Props> & {
+> = {
+  (...testProps: ConditionallyRequiredTestProps<Component, Props>): RenderRtlReturn<Component>;
   options: (options: RenderOptions) => RenderRtl<Component, Props>;
 };
-
-type RenderRtlMethod<
-  Component extends React.ComponentType,
-  Props extends Partial<FullProps<Component>>
-> = (...testProps: ConditionallyRequiredTestProps<Component, Props>) => RenderRtlReturn<Component>;
 
 type ConditionallyRequiredTestProps<
   Component extends React.ComponentType,
