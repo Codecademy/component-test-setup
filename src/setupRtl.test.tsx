@@ -49,4 +49,27 @@ describe("setupRtl", () => {
       view.getByText(text);
     });
   });
+
+  describe("uses overidden options", () => {
+    const text = "just something";
+    const options = { container: document.createElement("div") };
+
+    it("passed into the render method", () => {
+      const renderView = setupRtl(MyComponent, { text });
+
+      const { view } = renderView.options(options)();
+
+      expect(view.container).toBe(options.container);
+    });
+
+    it("and they are retained across calls to the method", () => {
+      const renderView = setupRtl(MyComponent, { text });
+
+      renderView.options(options)(); // Method call #1
+
+      const { view } = renderView(); // Different method call
+
+      expect(view.container).toBe(options.container);
+    });
+  });
 });
