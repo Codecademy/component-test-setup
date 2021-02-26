@@ -1,6 +1,8 @@
 import { RenderOptions, RenderResult } from "@testing-library/react";
 import { ReactWrapper } from "enzyme";
 
+export type SetupComponentType = React.ComponentType | ((props?: any) => React.ReactNode);
+
 // This is just a helpful rename of the interface so we can read the below types more easily
 export type FullProps<C extends React.ComponentType> = React.ComponentProps<C>;
 
