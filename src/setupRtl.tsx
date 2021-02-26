@@ -31,7 +31,7 @@ export function setupRtl<
     const props = {
       ...baseProps,
       ...testProps,
-    } as React.ComponentProps<ComponentType>;
+    } as FullProps<ComponentType>;
     const view = render(<Component {...(props as any)} />, options);
 
     return { props, view };

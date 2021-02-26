@@ -1,13 +1,20 @@
 import { RenderOptions, RenderResult } from "@testing-library/react";
 import { ReactWrapper } from "enzyme";
+import { ReactElement } from "react";
 
-export type SetupComponentType = React.ComponentType | ((props?: any) => React.ReactNode);
+// eslint-disable-next-line @typescript-eslint/ban-types
+interface PureFunctionComponent<P = {}> {
+  (props?: P): ReactElement<any, any> | null;
+}
+export type SetupComponentType = React.ComponentType | PureFunctionComponent;
 
 // This is just a helpful rename of the interface so we can read the below types more easily
-export type FullProps<C extends React.ComponentType> = React.ComponentProps<C>;
+export type FullProps<C extends SetupComponentType> = C extends React.ComponentType
+  ? React.ComponentProps<C>
+  : PureFunctionComponent<C>;
 
 export type RenderEnzyme<
-  Component extends React.ComponentType,
+  Component extends SetupComponentType,
   Props extends Partial<FullProps<Component>>
 > = (
   // By using the spread operator in this type, we leverage the optionality of the entire argument itself.
@@ -22,7 +29,7 @@ export type RenderEnzyme<
 // In order to support both signature types, we extend the function's base type and add the options
 // attribute for those "in the know" ;)
 export type RenderRtl<
-  Component extends React.ComponentType,
+  Component extends SetupComponentType,
   Props extends Partial<FullProps<Component>>
 > = {
   (...testProps: ConditionallyRequiredTestProps<Component, Props>): RenderRtlReturn<Component>;
@@ -30,7 +37,7 @@ export type RenderRtl<
 };
 
 type ConditionallyRequiredTestProps<
-  Component extends React.ComponentType,
+  Component extends SetupComponentType,
   Props extends Partial<FullProps<Component>>
 > =
   // This is where the real magic happens. At type-interpretation time, the compiler can infer from the
@@ -58,11 +65,11 @@ type RequiredKeys<T> = {
   [K in keyof T]-?: Record<string, unknown> extends { [P in K]: T[K] } ? never : K;
 }[keyof T];
 
-interface RenderEnzymeReturn<Component extends React.ComponentType> {
+interface RenderEnzymeReturn<Component extends SetupComponentType> {
   props: FullProps<Component>;
   wrapper: ReactWrapper<FullProps<Component>, React.ComponentState>;
 }
-interface RenderRtlReturn<Component extends React.ComponentType> {
+interface RenderRtlReturn<Component extends SetupComponentType> {
   props: FullProps<Component>;
   view: RenderResult;
 }
@@ -74,12 +81,12 @@ interface RenderRtlReturn<Component extends React.ComponentType> {
  * * Optional: any overrides for the base props
  */
 export type RemainingPropsAndTestOverrides<
-  ComponentType extends React.ComponentType,
+  ComponentType extends SetupComponentType,
   BaseProps extends Partial<FullProps<ComponentType>>
 > = RemainingProps<ComponentType, BaseProps> &
   Pick<Partial<FullProps<ComponentType>>, keyof FullProps<ComponentType>>;
 
 type RemainingProps<
-  ComponentType extends React.ComponentType,
+  ComponentType extends SetupComponentType,
   BaseProps extends Partial<FullProps<ComponentType>>
 > = Omit<FullProps<ComponentType>, keyof BaseProps>;
