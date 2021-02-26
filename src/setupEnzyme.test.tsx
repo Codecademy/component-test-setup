@@ -49,4 +49,13 @@ describe("setupEnzyme", () => {
       expect(wrapper.text()).toEqual(text);
     });
   });
+
+  it("can handle a pure function component", () => {
+    const text = "default";
+    const renderView = setupEnzyme(({ text }: MyComponentProps) => <div>{text}</div>);
+
+    const { wrapper } = renderView({ text });
+
+    expect(wrapper.text()).toEqual(text);
+  });
 });

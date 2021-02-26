@@ -72,4 +72,13 @@ describe("setupRtl", () => {
       expect(view.container).toBe(options.container);
     });
   });
+
+  it("can handle a pure function component", () => {
+    const text = "default";
+    const renderView = setupRtl(({ text }: MyComponentProps) => <div>{text}</div>);
+
+    const { view } = renderView({ text });
+
+    view.getByText(text);
+  });
 });

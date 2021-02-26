@@ -1,7 +1,7 @@
 import { render, RenderOptions } from "@testing-library/react";
 import React from "react";
 
-import { RemainingPropsAndTestOverrides, FullProps, RenderRtl } from "./types";
+import { RemainingPropsAndTestOverrides, FullProps, RenderRtl, SetupComponentType } from "./types";
 
 /**
  * Creates a `renderView` function that can be used in unit tests to mount a component.
@@ -21,7 +21,7 @@ import { RemainingPropsAndTestOverrides, FullProps, RenderRtl } from "./types";
  * ```
  */
 export function setupRtl<
-  ComponentType extends React.ComponentType,
+  ComponentType extends SetupComponentType,
   /* eslint-disable-next-line @typescript-eslint/ban-types */
   BaseProps extends Partial<FullProps<ComponentType>> = {}
 >(Component: ComponentType, baseProps?: BaseProps): RenderRtl<ComponentType, BaseProps> {
@@ -31,7 +31,7 @@ export function setupRtl<
     const props = {
       ...baseProps,
       ...testProps,
-    } as React.ComponentProps<ComponentType>;
+    } as FullProps<ComponentType>;
     const view = render(<Component {...(props as any)} />, options);
 
     return { props, view };
