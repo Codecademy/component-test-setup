@@ -8,10 +8,15 @@ interface PureFunctionComponent<P = {}> {
 }
 export type SetupComponentType = React.ComponentType | PureFunctionComponent;
 
-// This is just a helpful rename of the interface so we can read the below types more easily
+// Given a C component type, extracts the props of it:
+// * If C is an explicitly declared React.Component subclass or React.FC, we can use React.ComponentProps
+// * Otherewise if it's a regular function, we can extract its first parameter as the props
+// * If not, we give up...
 export type FullProps<C extends SetupComponentType> = C extends React.ComponentType
   ? React.ComponentProps<C>
-  : PureFunctionComponent<C>;
+  : C extends PureFunctionComponent
+  ? Parameters<C>[0]
+  : unknown;
 
 export type RenderEnzyme<
   Component extends SetupComponentType,

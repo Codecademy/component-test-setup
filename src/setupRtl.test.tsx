@@ -77,8 +77,8 @@ describe("setupRtl", () => {
     const text = "default";
     const renderView = setupRtl(({ text }: MyComponentProps) => <div>{text}</div>);
 
-    const { view } = renderView({ text });
+    const { props, view } = renderView({ text });
 
-    view.getByText(text);
+    view.getByText(props.text);
   });
 });

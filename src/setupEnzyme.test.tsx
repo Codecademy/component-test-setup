@@ -54,8 +54,8 @@ describe("setupEnzyme", () => {
     const text = "default";
     const renderView = setupEnzyme(({ text }: MyComponentProps) => <div>{text}</div>);
 
-    const { wrapper } = renderView({ text });
+    const { props, wrapper } = renderView({ text });
 
-    expect(wrapper.text()).toEqual(text);
+    expect(wrapper.text()).toEqual(props.text);
   });
 });
