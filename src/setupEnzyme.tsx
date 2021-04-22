@@ -26,7 +26,7 @@ import {
  * ```
  */
 export function setupEnzyme<
-  ComponentType extends SetupComponentType,
+  ComponentType extends SetupComponentType<FullProps<ComponentType>>,
   /* eslint-disable-next-line @typescript-eslint/ban-types */
   BaseProps extends Partial<FullProps<ComponentType>> = {}
 >(Component: ComponentType, baseProps?: BaseProps): RenderEnzyme<ComponentType, BaseProps> {
