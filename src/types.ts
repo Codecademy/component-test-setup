@@ -6,20 +6,20 @@ import { ReactElement } from "react";
 interface PureFunctionComponent<P = {}> {
   (props?: P): ReactElement<any, any> | null;
 }
-export type SetupComponentType = React.ComponentType | PureFunctionComponent;
+export type SetupComponentType<P> = React.ComponentType<P> | PureFunctionComponent<P>;
 
 // Given a C component type, extracts the props of it:
 // * If C is an explicitly declared React.Component subclass or React.FC, we can use React.ComponentProps
 // * Otherewise if it's a regular function, we can extract its first parameter as the props
 // * If not, we give up...
-export type FullProps<C extends SetupComponentType> = C extends React.ComponentType
+export type FullProps<C extends SetupComponentType<FullProps<C>>> = C extends React.ComponentType
   ? React.ComponentProps<C>
   : C extends PureFunctionComponent
   ? Parameters<C>[0]
   : unknown;
 
 export type RenderEnzyme<
-  Component extends SetupComponentType,
+  Component extends SetupComponentType<FullProps<Component>>,
   Props extends Partial<FullProps<Component>>
 > = (
   // By using the spread operator in this type, we leverage the optionality of the entire argument itself.
@@ -34,7 +34,7 @@ export type RenderEnzyme<
 // In order to support both signature types, we extend the function's base type and add the options
 // attribute for those "in the know" ;)
 export type RenderRtl<
-  Component extends SetupComponentType,
+  Component extends SetupComponentType<FullProps<Component>>,
   Props extends Partial<FullProps<Component>>
 > = {
   (...testProps: ConditionallyRequiredTestProps<Component, Props>): RenderRtlReturn<Component>;
@@ -42,7 +42,7 @@ export type RenderRtl<
 };
 
 type ConditionallyRequiredTestProps<
-  Component extends SetupComponentType,
+  Component extends SetupComponentType<FullProps<Component>>,
   Props extends Partial<FullProps<Component>>
 > =
   // This is where the real magic happens. At type-interpretation time, the compiler can infer from the
@@ -70,11 +70,11 @@ type RequiredKeys<T> = {
   [K in keyof T]-?: Record<string, unknown> extends { [P in K]: T[K] } ? never : K;
 }[keyof T];
 
-interface RenderEnzymeReturn<Component extends SetupComponentType> {
+interface RenderEnzymeReturn<Component extends SetupComponentType<FullProps<Component>>> {
   props: FullProps<Component>;
   wrapper: ReactWrapper<FullProps<Component>, React.ComponentState>;
 }
-interface RenderRtlReturn<Component extends SetupComponentType> {
+interface RenderRtlReturn<Component extends SetupComponentType<FullProps<Component>>> {
   props: FullProps<Component>;
   view: RenderResult;
 }
@@ -86,12 +86,12 @@ interface RenderRtlReturn<Component extends SetupComponentType> {
  * * Optional: any overrides for the base props
  */
 export type RemainingPropsAndTestOverrides<
-  ComponentType extends SetupComponentType,
+  ComponentType extends SetupComponentType<FullProps<ComponentType>>,
   BaseProps extends Partial<FullProps<ComponentType>>
 > = RemainingProps<ComponentType, BaseProps> &
   Pick<Partial<FullProps<ComponentType>>, keyof FullProps<ComponentType>>;
 
 type RemainingProps<
-  ComponentType extends SetupComponentType,
+  ComponentType extends SetupComponentType<FullProps<ComponentType>>,
   BaseProps extends Partial<FullProps<ComponentType>>
 > = Omit<FullProps<ComponentType>, keyof BaseProps>;
