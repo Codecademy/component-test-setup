@@ -93,8 +93,7 @@ interface BaseRenderReturn<Component extends SetupComponentType> {
 export type RemainingPropsAndTestOverrides<
   ComponentType extends SetupComponentType,
   BaseProps extends Partial<FullProps<ComponentType>>
-> = RemainingProps<ComponentType, BaseProps> &
-  Pick<Partial<FullProps<ComponentType>>, keyof FullProps<ComponentType>>;
+> = RemainingProps<ComponentType, BaseProps> & Partial<FullProps<ComponentType>>;
 
 type RemainingProps<
   ComponentType extends SetupComponentType,

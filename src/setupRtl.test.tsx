@@ -11,9 +11,11 @@ const MyComponent: React.FC<MyComponentProps> = ({ text }: MyComponentProps) => 
   return <div>{text}</div>;
 };
 
+const text = "default";
+const overridden = "overridden";
+
 describe("setupRtl", () => {
   it("uses a default prop value when not overridden", async () => {
-    const text = "default";
     const renderView = setupRtl(MyComponent, { text });
 
     const { view } = renderView();
@@ -22,17 +24,26 @@ describe("setupRtl", () => {
   });
 
   it("uses an overridden prop value when not overridden", async () => {
-    const text = "overridden";
-    const renderView = setupRtl(MyComponent, { text: "default" });
+    const renderView = setupRtl(MyComponent, { text });
 
-    const { view } = renderView({ text });
+    const { view } = renderView({ text: overridden });
+
+    view.getByText(overridden);
+  });
+
+  it("updates view with new props when passed", () => {
+    const renderView = setupRtl(MyComponent, { text });
+
+    const { view, update } = renderView();
 
     view.getByText(text);
+
+    update({ text: overridden });
+
+    view.getByText(overridden);
   });
 
   describe("enforces that required props that are missing in the initial setup are provided in the render method", () => {
-    const text = "default";
-
     it("when props are completely absent", async () => {
       const renderView = setupRtl(MyComponent);
 
@@ -51,7 +62,6 @@ describe("setupRtl", () => {
   });
 
   describe("uses overidden options", () => {
-    const text = "just something";
     const options = { container: document.createElement("div") };
 
     it("passed into the render method", () => {
@@ -74,7 +84,6 @@ describe("setupRtl", () => {
   });
 
   it("can handle a pure function component", () => {
-    const text = "default";
     const renderView = setupRtl(({ text }: MyComponentProps) => <div>{text}</div>);
 
     const { props, view } = renderView({ text });
