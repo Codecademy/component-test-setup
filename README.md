@@ -89,6 +89,32 @@ describe("MyComponent", () => {
 });
 ```
 
+### Updating Props
+
+Often you'd like to test lifecycle methods/hooks and `component-test-setup` is written to help accommodate that.
+
+For both RTL and Enzyme the API is the same, the `update` method returned in the `render*` method:
+
+```js
+const renderWrapper = setupEnzyme(MyComponent, {
+  someProp: "value",
+});
+
+describe("MyComponent", () => {
+  it("does a thing", () => {
+    const { wrapper, update } = renderWrapper({
+      some: "otherProp",
+    });
+
+    update({ someProp: "another-value" });
+
+    wrapper.getByText("another-value"); // It has been updated to render with the new someProp value
+  });
+});
+```
+
+Please note: This currently _does not_ update the `props` object that's returned in the `render*` method. It will be locked into whatever the initial completed props were for the first render.
+
 ### TypeScript Usage
 
 `component-test-setup` is written in TypeScript and generally type safe.
