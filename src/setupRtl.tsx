@@ -33,8 +33,10 @@ export function setupRtl<
       ...testProps,
     } as FullProps<ComponentType>;
     const view = render(<Component {...(props as any)} />, options);
+    const update = (updatedProps: Partial<FullProps<ComponentType>>) =>
+      view.rerender(<Component {...(props as any)} {...updatedProps} />);
 
-    return { props, view };
+    return { props, view, update };
   }
 
   renderView.options = (newOptions: RenderOptions) => {

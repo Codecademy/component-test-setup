@@ -39,6 +39,6 @@ export function setupEnzyme<
     } as FullProps<ComponentType>;
     const wrapper = mount(<Component {...(props as any)} />);
 
-    return { props, wrapper };
+    return { props, wrapper, update: wrapper.setProps };
   };
 }
