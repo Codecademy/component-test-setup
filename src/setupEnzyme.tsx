@@ -39,6 +39,10 @@ export function setupEnzyme<
     } as FullProps<ComponentType>;
     const wrapper = mount(<Component {...(props as any)} />);
 
-    return { props, wrapper };
+    // setProps demands _something_ be passed, so we keep that going, too
+    const update = (updatedProps: Pick<FullProps<ComponentType>, keyof FullProps<ComponentType>>) =>
+      wrapper.setProps(updatedProps);
+
+    return { props, wrapper, update };
   };
 }

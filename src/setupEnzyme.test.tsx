@@ -11,9 +11,11 @@ const MyComponent: React.FC<MyComponentProps> = ({ text }: MyComponentProps) => 
   return <div>{text}</div>;
 };
 
+const text = "default";
+const overridden = "overridden";
+
 describe("setupEnzyme", () => {
   it("uses a default prop value when not overridden", async () => {
-    const text = "default";
     const renderWrapper = setupEnzyme(MyComponent, { text });
 
     const { wrapper } = renderWrapper();
@@ -22,17 +24,26 @@ describe("setupEnzyme", () => {
   });
 
   it("uses an overridden prop value when not overridden", async () => {
-    const text = "overridden";
-    const renderWrapper = setupEnzyme(MyComponent, { text: "default" });
+    const renderWrapper = setupEnzyme(MyComponent, { text });
 
-    const { wrapper } = renderWrapper({ text });
+    const { wrapper } = renderWrapper({ text: overridden });
+
+    expect(wrapper.text()).toEqual(overridden);
+  });
+
+  it("updates view with new props when passed", () => {
+    const renderView = setupEnzyme(MyComponent, { text });
+
+    const { wrapper, update } = renderView();
 
     expect(wrapper.text()).toEqual(text);
+
+    update({ text: overridden });
+
+    expect(wrapper.text()).toEqual(overridden);
   });
 
   describe("enforces that required props that are missing in the initial setup are provided in the render method", () => {
-    const text = "default";
-
     it("when props are completely absent", async () => {
       const renderWrapper = setupEnzyme(MyComponent);
 
@@ -51,7 +62,6 @@ describe("setupEnzyme", () => {
   });
 
   it("can handle a pure function component", () => {
-    const text = "default";
     const renderView = setupEnzyme(({ text }: MyComponentProps) => <div>{text}</div>);
 
     const { props, wrapper } = renderView({ text });
