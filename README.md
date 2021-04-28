@@ -206,10 +206,21 @@ Requires:
 
 After [forking the repo from GitHub](https://help.github.com/articles/fork-a-repo):
 
-```
+```shell
 git clone https://github.com/<your-name-here>/component-test-setup
 cd component-test-setup
 yarn
+```
+
+### Publishing New Versions
+
+CI will automatically publish a new version when it sees a new version tag.
+Locally, you can trigger this if you have admin permissions:
+
+```shell
+git checkout main
+npm version <patch|minor|major>
+git push
 ```
 
 ### Contribution Guidelines
