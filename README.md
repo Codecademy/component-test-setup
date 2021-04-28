@@ -46,7 +46,7 @@ const renderView = setupRtl(MyComponent, {
 describe("MyComponent", () => {
   it("does a thing", () => {
     const { props, view } = renderView({
-      some: "otherProp",
+      someProp: "otherProp",
     });
 
     view.getByText(props.someProp);
