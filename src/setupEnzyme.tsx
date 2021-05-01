@@ -1,4 +1,3 @@
-import { mount } from "enzyme";
 import React from "react";
 
 import {
@@ -30,6 +29,7 @@ export function setupEnzyme<
   /* eslint-disable-next-line @typescript-eslint/ban-types */
   BaseProps extends Partial<FullProps<ComponentType>> = {}
 >(Component: ComponentType, baseProps?: BaseProps): RenderEnzyme<ComponentType, BaseProps> {
+  const { mount } = require("enzyme") as typeof import("enzyme");
   return function renderWrapper(
     testProps?: RemainingPropsAndTestOverrides<ComponentType, BaseProps>,
   ) {
