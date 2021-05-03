@@ -60,5 +60,5 @@
     "tsc": "tsc --module commonjs"
   },
   "types": "src/index.d.ts",
-  "version": "0.3.0-beta"
+  "version": "0.3.1"
 }
