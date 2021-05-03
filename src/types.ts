@@ -6,7 +6,7 @@ import { ReactElement } from "react";
 interface PureFunctionComponent<P = {}> {
   (props?: P): ReactElement<any, any> | null;
 }
-export type SetupComponentType = React.ComponentType | PureFunctionComponent;
+export type SetupComponentType = React.ComponentType<any> | PureFunctionComponent;
 
 // Given a C component type, extracts the props of it:
 // * If C is an explicitly declared React.Component subclass or React.FC, we can use React.ComponentProps
