@@ -70,11 +70,11 @@ type RequiredKeys<T> = {
   [K in keyof T]-?: Record<string, unknown> extends { [P in K]: T[K] } ? never : K;
 }[keyof T];
 
-interface RenderEnzymeReturn<Component extends SetupComponentType>
+export interface RenderEnzymeReturn<Component extends SetupComponentType>
   extends BaseRenderReturn<Component> {
   wrapper: ReactWrapper<FullProps<Component>, React.ComponentState>;
 }
-interface RenderRtlReturn<Component extends SetupComponentType>
+export interface RenderRtlReturn<Component extends SetupComponentType>
   extends BaseRenderReturn<Component> {
   view: RenderResult;
 }
