@@ -11,6 +11,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        command: ["eslint", "prettier", "test:ci", "tsc"]
+        command: ["eslint", "prettier", "test:ci", "compile"]
 
 on: push
