@@ -57,7 +57,7 @@
     "prettier:write": "npm run prettier -- --write",
     "test": "jest",
     "test:ci": "jest --maxWorkers=2",
-    "tsc": "tsc --module commonjs"
+    "compile": "tsc --module commonjs"
   },
   "types": "src/index.d.ts",
   "version": "0.3.2"
