@@ -9,9 +9,9 @@
 Standardized test setup methods for React components.
 
 Tired of copy and pasting default prop templates for React component tests?
-Use this cute little package with React Testing Library or Enzyme to standardize your component setups.
+Use this cute little package with React Testing Library to standardize your component setups.
 
-> 🧠 This library is a _very_ small wrapper on top of Enzyme or RTL, and exists only to help standardize test setup behavior.
+> 🧠 This library is a _very_ small wrapper on top of RTL, and exists only to help standardize test setup behavior.
 
 ## Usage
 
@@ -19,14 +19,14 @@ Use this cute little package with React Testing Library or Enzyme to standardize
 npm install component-test-setup --save-dev
 ```
 
-For both RTL and Enzyme, this library provides a `setup*` function that takes in:
+For RTL, this library provides a `setup*` function that takes in:
 
 1. Your React component class or function
 2. Any prop defaults for the component _(optional)_
 
 That function returns a `render*` function that takes in any more props and returns:
 
-- The library's rendered equivalent: `view` for RTL and `wrapper` for Enzyme.
+- The library's rendered equivalent: `view` for RTL
 - `props`: The computed props the component rendered with.
 
 ### React Testing Library
@@ -66,49 +66,31 @@ const { view } = renderView(MyComponent).options({
 
 ### Enzyme
 
-Use `setupEnzyme` to create a `renderWrapper` function.
-It returns a `wrapper` result from RTL and a `props` object of the computed props used to render.
+Previous versions of this library supported Enzyme, but with the upgrade to React-18 and Enzyme nop longer being supported,
+this library has moved to a place of no longer supporting it either.
 
-```js
-import { setupEnzyme } from "component-test-setup";
-
-import { MyComponent } from "./MyComponent";
-
-const renderWrapper = setupEnzyme(MyComponent, {
-  someProp: "value",
-});
-
-describe("MyComponent", () => {
-  it("does a thing", () => {
-    const { props, wrapper } = renderWrapper({
-      some: "otherProp",
-    });
-
-    wrapper.getByText(props.someProp);
-  });
-});
-```
+For Enzyme support, please check older major versions of this library.
 
 ### Updating Props
 
 Often you'd like to test lifecycle methods/hooks and `component-test-setup` is written to help accommodate that.
 
-For both RTL and Enzyme the API is the same, the `update` method returned in the `render*` method:
+The `update` method returned in the `render*` method:
 
 ```js
-const renderWrapper = setupEnzyme(MyComponent, {
+const renderView = setupRtl(MyComponent, {
   someProp: "value",
 });
 
 describe("MyComponent", () => {
   it("does a thing", () => {
-    const { wrapper, update } = renderWrapper({
+    const { view, update } = renderView({
       some: "otherProp",
     });
 
     update({ someProp: "another-value" });
 
-    wrapper.getByText("another-value"); // It has been updated to render with the new someProp value
+    view.getByText("another-value"); // It has been updated to render with the new someProp value
   });
 });
 ```
