@@ -1,5 +1,4 @@
 import { RenderOptions, RenderResult } from "@testing-library/react";
-import { ReactWrapper } from "enzyme";
 import { ReactElement } from "react";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -9,34 +8,27 @@ interface PureFunctionComponent<P = {}> {
 export type SetupComponentType = React.ComponentType<any> | PureFunctionComponent;
 
 // Given a C component type, extracts the props of it:
-export type FullProps<C extends SetupComponentType> = React.ComponentProps<C>
+export type FullProps<C extends SetupComponentType> = React.ComponentProps<C>;
 
-export type RenderEnzyme<
-  Component extends SetupComponentType,
-  Props extends Partial<FullProps<Component>>
-> = (
-  // By using the spread operator in this type, we leverage the optionality of the entire argument itself.
-  // eg: If the caller needs no more required props, we don't require they provide test props. But if
-  //     they DO still need props, we require a parameter in the function signature.
-  //     So the syntax `renderWrapper()` is valid if there are no required props,
-  //     otherwise we force `renderWrapper({ ...missingReqs })`
-  ...testProps: ConditionallyRequiredTestProps<Component, Props>
-) => RenderEnzymeReturn<Component>;
-
-// Just like RenderEnzyme, but RenderRtl also allows callers to do `renderRtl.options({...})(props)`
+// RenderRtl allows callers to do `renderRtl.options({...})(props)`
 // In order to support both signature types, we extend the function's base type and add the options
 // attribute for those "in the know" ;)
 export type RenderRtl<
   Component extends SetupComponentType,
-  Props extends Partial<FullProps<Component>>
+  Props extends Partial<FullProps<Component>>,
 > = {
+  // By using the spread operator in this type, we leverage the optionality of the entire argument itself.
+  // eg: If the caller needs no more required props, we don't require they provide test props. But if
+  //     they DO still need props, we require a parameter in the function signature.
+  //     So the syntax `renderView()` is valid if there are no required props,
+  //     otherwise we force `renderView({ ...missingReqs })`
   (...testProps: ConditionallyRequiredTestProps<Component, Props>): RenderRtlReturn<Component>;
   options: (options: RenderOptions) => RenderRtl<Component, Props>;
 };
 
 type ConditionallyRequiredTestProps<
   Component extends SetupComponentType,
-  Props extends Partial<FullProps<Component>>
+  Props extends Partial<FullProps<Component>>,
 > =
   // This is where the real magic happens. At type-interpretation time, the compiler can infer from the
   // component's prop type and from the passed props into the `setup*` function if there are any missing
@@ -63,10 +55,6 @@ type RequiredKeys<T> = {
   [K in keyof T]-?: Record<string, unknown> extends { [P in K]: T[K] } ? never : K;
 }[keyof T];
 
-interface RenderEnzymeReturn<Component extends SetupComponentType>
-  extends BaseRenderReturn<Component> {
-  wrapper: ReactWrapper<FullProps<Component>, React.ComponentState>;
-}
 interface RenderRtlReturn<Component extends SetupComponentType>
   extends BaseRenderReturn<Component> {
   view: RenderResult;
@@ -85,10 +73,10 @@ interface BaseRenderReturn<Component extends SetupComponentType> {
  */
 export type RemainingPropsAndTestOverrides<
   ComponentType extends SetupComponentType,
-  BaseProps extends Partial<FullProps<ComponentType>>
+  BaseProps extends Partial<FullProps<ComponentType>>,
 > = RemainingProps<ComponentType, BaseProps> & Partial<FullProps<ComponentType>>;
 
 type RemainingProps<
   ComponentType extends SetupComponentType,
-  BaseProps extends Partial<FullProps<ComponentType>>
+  BaseProps extends Partial<FullProps<ComponentType>>,
 > = Omit<FullProps<ComponentType>, keyof BaseProps>;

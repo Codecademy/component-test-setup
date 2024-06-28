@@ -6,3 +6,4 @@ node_modules/
 !*.config.js
 !.eslintrc.js
 !test/*
+.DS_Store

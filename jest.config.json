@@ -1,5 +1,4 @@
 {
   "moduleFileExtensions": ["tsx", "ts", "js"],
-  "setupFiles": ["<rootDir>test/base-setup.js"],
   "testRegex": ["\\.test\\.tsx?$"]
 }

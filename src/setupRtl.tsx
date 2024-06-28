@@ -1,4 +1,4 @@
-import type { RenderOptions } from "@testing-library/react";
+import { render, type RenderOptions } from "@testing-library/react";
 import React from "react";
 
 import { RemainingPropsAndTestOverrides, FullProps, RenderRtl, SetupComponentType } from "./types";
@@ -25,7 +25,6 @@ export function setupRtl<
   /* eslint-disable-next-line @typescript-eslint/ban-types */
   BaseProps extends Partial<FullProps<ComponentType>> = {}
 >(Component: ComponentType, baseProps?: BaseProps): RenderRtl<ComponentType, BaseProps> {
-  const { render } = require("@testing-library/react") as typeof import("@testing-library/react");
   let options: RenderOptions;
 
   function renderView(testProps?: RemainingPropsAndTestOverrides<ComponentType, BaseProps>) {
