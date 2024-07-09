@@ -23,7 +23,7 @@ import { RemainingPropsAndTestOverrides, FullProps, RenderRtl, SetupComponentTyp
 export function setupRtl<
   ComponentType extends SetupComponentType,
   /* eslint-disable-next-line @typescript-eslint/ban-types */
-  BaseProps extends Partial<FullProps<ComponentType>> = {}
+  BaseProps extends Partial<FullProps<ComponentType>> = {},
 >(Component: ComponentType, baseProps?: BaseProps): RenderRtl<ComponentType, BaseProps> {
   let options: RenderOptions;
 
