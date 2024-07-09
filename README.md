@@ -3,7 +3,6 @@
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 ![TypeScript: Strict](https://img.shields.io/badge/typescript-strict-brightgreen.svg)
 [![NPM version](https://badge.fury.io/js/component-test-setup.svg)](http://badge.fury.io/js/component-test-setup)
-[![Circle CI](https://img.shields.io/circleci/build/github/Codecademy/component-test-setup.svg)](https://circleci.com/gh/Codecademy/component-test-setup)
 [![Join the chat at https://gitter.im/Codecademy/component-test-setup](https://badges.gitter.im/Codecademy/component-test-setup.svg)](https://gitter.im/Codecademy/component-test-setup?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Standardized test setup methods for React components.
